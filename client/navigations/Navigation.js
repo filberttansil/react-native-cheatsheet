@@ -1,4 +1,9 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+  useNavigation,
+} from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import "react-native-gesture-handler";
@@ -13,9 +18,13 @@ import { Ionicons } from "@expo/vector-icons";
 import LoginScreen from "../screens/LoginScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import PokemonList from "../screens/PokemonList";
-import { Pressable } from "react-native";
+import { Pressable, useColorScheme } from "react-native";
 import SectionListScreen from "../screens/SectionListScreen";
-
+import AutoScroll from "../screens/AutoScroll";
+import TodoFormScreen from "../screens/TodoFormScreen";
+import PostScreen from "../screens/exerciseStack/PostScreen";
+import AddPostScreen from "../screens/exerciseStack/AddPostScreen";
+import FlexBox from "../screens/FlexBox";
 // Stack
 const Stack = createNativeStackNavigator();
 function HomeStackGroup() {
@@ -26,6 +35,11 @@ function HomeStackGroup() {
         name="TodoDetail"
         component={TodoDetail}
         // options={{ presentation:'modal' }}
+      />
+      <Stack.Screen
+        name="TodoFormScreen"
+        component={TodoFormScreen}
+        options={{ presentation: "modal" }}
       />
     </Stack.Navigator>
   );
@@ -89,6 +103,8 @@ function DrawerGroup() {
       />
       <Drawer.Screen name="Demo Form Login" component={LoginScreen} />
       <Drawer.Screen name="Demo Section List" component={SectionListScreen} />
+      <Drawer.Screen name="Demo AutoScroll" component={AutoScroll} />
+      <Drawer.Screen name="Latihan" component={PostAndFlexBox} />
     </Drawer.Navigator>
   );
 }
@@ -109,9 +125,22 @@ function TopTabGroup() {
   );
 }
 
-export default function Navigation() {
+function PostAndFlexBox() {
   return (
-    <NavigationContainer>
+    <TopTab.Navigator>
+      <TopTab.Screen name="PostScreen" component={PostScreen} />
+      <TopTab.Screen name="FlexBox" component={FlexBox} />
+    </TopTab.Navigator>
+  );
+}
+
+export default function Navigation() {
+  const currentTheme = useColorScheme();
+  return (
+    <NavigationContainer
+    // Enable DarkMode
+    // theme={currentTheme === "dark" ? DarkTheme : DefaultTheme}
+    >
       <DrawerGroup />
     </NavigationContainer>
   );

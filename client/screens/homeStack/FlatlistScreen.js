@@ -5,16 +5,19 @@ import {
   StyleSheet,
   FlatList,
   Image,
-  Button,
   TouchableOpacity,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import Button from "../../components/Button";
 export default function FlatListScreen() {
   const { navigate, setOptions, openDrawer } = useNavigation();
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -23,9 +26,16 @@ export default function FlatListScreen() {
       if (!response.ok) throw new Error("Failed to fetch data");
       const data = await response.json();
       setData(data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchData();
+    setRefreshing(false);
   };
   useEffect(() => {
     fetchData();
@@ -41,11 +51,24 @@ export default function FlatListScreen() {
       ),
     });
   }, []);
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <ActivityIndicator size={"large"} color={"lightblue"} />
+      </SafeAreaView>
+    );
+  }
   return (
     <SafeAreaView style={styles.safeView}>
+      <View style={{ padding: 10 }}>
+        <Button
+          children={"Add Todo"}
+          onPress={() => navigate("TodoFormScreen")}
+        />
+      </View>
       <FlatList
         data={data}
-        renderItem={({ item, separators }) => (
+        renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
             onPress={() => navigate("TodoDetail", item)}
@@ -86,6 +109,10 @@ export default function FlatListScreen() {
         ListFooterComponent={() => (
           <Text style={styles.headerAndFooter}>End of To Do List</Text>
         )}
+        // Props untuk refresh menerima boolean
+        refreshing={refreshing}
+        // Menerima function, buat function sesuai dengan yang kamu mau
+        onRefresh={handleRefresh}
       />
     </SafeAreaView>
   );
@@ -115,5 +142,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 10,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
