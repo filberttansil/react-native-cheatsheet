@@ -10,7 +10,7 @@ import {
 
 import groupedPokemonList from "../grouped-data.json";
 
-export default function App() {
+export default function SectionListScreen() {
   return (
     <SafeAreaView styles={styles.container}>
       <View style={styles.scrollView}>

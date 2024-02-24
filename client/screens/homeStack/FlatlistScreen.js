@@ -6,10 +6,14 @@ import {
   FlatList,
   Image,
   Button,
+  TouchableOpacity,
+  Pressable,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-
-export default function FlatListScreen({ navigation }) {
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { SimpleLineIcons } from "@expo/vector-icons";
+export default function FlatListScreen() {
+  const { navigate, setOptions, openDrawer } = useNavigation();
   const [data, setData] = useState([]);
   const fetchData = async () => {
     try {
@@ -26,14 +30,28 @@ export default function FlatListScreen({ navigation }) {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useLayoutEffect(() => {
+    setOptions({
+      headerShown: true,
+      headerLeft: () => (
+        <Pressable style={{ marginLeft: 20 }} onPress={() => openDrawer()}>
+          <SimpleLineIcons name="drawer" size={24} color="black" />
+        </Pressable>
+      ),
+    });
+  }, []);
   return (
     <SafeAreaView style={styles.safeView}>
       <FlatList
         data={data}
         renderItem={({ item, separators }) => (
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => navigate("TodoDetail", item)}
+          >
             <Text>{item.title}</Text>
-          </View>
+          </TouchableOpacity>
         )}
         keyExtractor={(item) => item.id}
         // Props ini merender react component
@@ -49,7 +67,7 @@ export default function FlatListScreen({ navigation }) {
             }}
           >
             <Image
-              source={require("../assets/pikachu.png")}
+              source={require("../../assets/pikachu.png")}
               style={{ height: 300, width: "100%" }}
               resizeMode="contain"
             />
@@ -62,10 +80,6 @@ export default function FlatListScreen({ navigation }) {
         ListHeaderComponent={() => (
           <View>
             <Text style={styles.headerAndFooter}>To Do List</Text>
-            <Button
-              title="Tes Navigation"
-              onPress={() => navigation.navigate("Pokemon List")}
-            />
           </View>
         )}
         // Props ini merender react element di akhir list

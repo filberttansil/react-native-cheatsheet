@@ -801,8 +801,6 @@ Cara menggunakannya adalah sebagai berikut:
    npm install @react-navigation/native
    ```
 
-````
-
 1. Apabila menggunakan `expo`, wajib juga memasang package tambahan expo dengan perintah berikut:
 
    ```sh
@@ -949,8 +947,46 @@ npx expo install react-native-gesture-handler react-native-reanimated
 
 ### Nesting Navigasi
 
-- https://reactnavigation.org/docs/nesting-navigators
-  gi
+- [`Docs klik disini`](https://reactnavigation.org/docs/nesting-navigators)
+
+Demo:
+
+1. Buat folder `navigations/navigation.js`. Folder ini akan menampung semua navigator kita.
+2. Sekarang di App.js hanya mereturn satu `Navigation` dimana semua yang ada ddidalam Component tsb adalah navigator kita.
+3. Function Component Utama
+
+```jsx
+import { NavigationContainer } from "@react-navigation/native";
+
+export default function Navigation() {
+  return <NavigationContainer>{/* Children */}</NavigationContainer>;
+}
+```
+
+4. Disini kita akan membuat aplikasi dengan `BottomTab` kita buat function yang menerima semua item untuk bottom tab.
+
+```jsx
+function TabGroup() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={PokemonExercise} />
+      <Tab.Screen name="About" component={AboutScreen} />
+    </Tab.Navigator>
+  );
+}
+```
+
+5. Masukkan TabGroup menjadi children Navigation.
+
+```jsx
+export default function Navigation() {
+  return (
+    <NavigationContainer>
+      <TabGroup />
+    </NavigationContainer>
+  );
+}
+```
 
 # Dynamic User Interfaces (useDimensions API)
 
@@ -983,4 +1019,7 @@ Agar dapat mendeteksi Platform apa yang mengakses aplikasi kita dapat menggunaka
 ```jsx
 paddingTop: Platform.OS === "android" ? 25 : 0;
 ```
-````
+
+```
+
+```

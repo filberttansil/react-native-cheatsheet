@@ -3,7 +3,7 @@ import React from "react";
 import { POKEMON_DATA } from "../constants/pokemon";
 import PokemonCard from "../components/PokemonCard";
 
-export default function PokemonExercise() {
+export default function PokemonList() {
   return (
     <SafeAreaView style={styles.safeView}>
       <ScrollView>
