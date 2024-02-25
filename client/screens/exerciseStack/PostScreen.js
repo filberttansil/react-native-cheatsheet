@@ -5,17 +5,21 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
-  Pressable,
   TouchableOpacity,
+  TextInput,
+  Keyboard,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import SearchBar from "../../components/SearchBar";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+
 import { FontAwesome } from "@expo/vector-icons";
-export default function PostScreen() {
+import EmptyComponent from "../../components/EmptyComponent";
+export default function PostScreen({ navigation }) {
   // State
   const API = "https://jsonplaceholder.typicode.com/posts";
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
   // Functions
   const fetchPosts = async () => {
     try {
@@ -29,50 +33,100 @@ export default function PostScreen() {
     }
   };
   const handleSortAsc = () => {
-    const sortedArr = [...posts].sort((a, b) => a.id - b.id);
-    setPosts(sortedArr);
+    setPosts([...posts].sort((a, b) => a.id - b.id));
   };
   const handleSortDesc = () => {
-    const sortedArr = [...posts].sort((a, b) => b.id - a.id);
-    setPosts(sortedArr);
+    setPosts([...posts].sort((a, b) => b.id - a.id));
+  };
+  const handleKeyboardDismiss = () => {
+    Keyboard.dismiss();
+  };
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchPosts();
+    setRefreshing(false);
   };
   // Hooks
+  // FetchData
   useEffect(() => {
     fetchPosts();
   }, []);
+  // Search
+  // useEffect(() => {
+  //   const debounceTimeout = setTimeout(() => {
+  //     console.log("jalan");
+  //     setIsLoading(true);
+  //     fetch("https://jsonplaceholder.typicode.com/posts")
+  //       .then((response) => response.json())
+  //       .then((json) =>
+  //         json.filter((post) =>
+  //           post.title.toLowerCase().includes(searchQuery.toLowerCase())
+  //         )
+  //       )
+  //       .then((filteredPost) => setPosts(filteredPost))
+  //       .then(() => setIsLoading(false));
+  //   }, 1000);
+  //   return () => clearTimeout(debounceTimeout);
+  // }, [searchQuery]);
 
-  if (isLoading) {
-    return (
-      <SafeAreaView
-        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-      >
-        <ActivityIndicator size={"large"} color={"lightblue"} />
-      </SafeAreaView>
-    );
-  }
   return (
     <SafeAreaView style={styles.container}>
       {/* Search and Sort */}
       <View style={styles.head}>
         {/* <SearchBar /> */}
-        <TouchableOpacity onPress={handleSortAsc}>
-          <FontAwesome name="sort-up" size={30} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleSortDesc}>
-          <FontAwesome name="sort-down" size={30} color="black" />
-        </TouchableOpacity>
+        <View style={styles.searchBar}>
+          <TextInput
+            style={{
+              padding: 20,
+              borderColor: "gray",
+              borderWidth: 1,
+              borderRadius: 99999,
+            }}
+            value={searchQuery}
+            onChangeText={(value) => setSearchQuery(value)}
+            onSubmitEditing={handleKeyboardDismiss}
+            placeholder="Search title here .."
+            autoCorrect={false}
+          />
+        </View>
+        {/* Buttons */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleSortAsc}>
+            <FontAwesome name="sort-up" size={30} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleSortDesc}>
+            <FontAwesome name="sort-down" size={30} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("AddPostScreen", { posts, setPosts })
+            }
+          >
+            <FontAwesome name="plus-circle" size={30} color={"black"} />
+          </TouchableOpacity>
+        </View>
       </View>
-      <FlatList
-        data={posts}
-        renderItem={({ item }) => (
-          <View style={styles.postContainer}>
-            <Text style={styles.textLgBold}>{item.id}</Text>
-            <Text style={styles.textLgBold}>{item.title}</Text>
-            <Text>{item.body}</Text>
-          </View>
-        )}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-      />
+
+      {isLoading ? (
+        <ActivityIndicator size={"large"} color={"lightblue"} />
+      ) : (
+        <FlatList
+          data={posts}
+          renderItem={({ item }) => (
+            <View style={styles.postContainer}>
+              <Text style={styles.textLgBold}>{item.id}</Text>
+              <Text style={styles.textLgBold}>{item.title}</Text>
+              <Text>{item.body}</Text>
+            </View>
+          )}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          ListEmptyComponent={() => {
+            return <EmptyComponent />;
+          }}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+        />
+      )}
     </SafeAreaView>
   );
 }
@@ -93,5 +147,15 @@ const styles = StyleSheet.create({
   },
   head: {
     flexDirection: "row",
+    padding: 15,
+    alignItems: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    marginLeft: 20,
+    gap: 15,
+  },
+  searchBar: {
+    flex: 1,
   },
 });

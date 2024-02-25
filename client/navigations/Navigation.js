@@ -22,9 +22,9 @@ import { Pressable, useColorScheme } from "react-native";
 import SectionListScreen from "../screens/SectionListScreen";
 import AutoScroll from "../screens/AutoScroll";
 import TodoFormScreen from "../screens/TodoFormScreen";
+import FlexBox from "../screens/FlexBox";
 import PostScreen from "../screens/exerciseStack/PostScreen";
 import AddPostScreen from "../screens/exerciseStack/AddPostScreen";
-import FlexBox from "../screens/FlexBox";
 // Stack
 const Stack = createNativeStackNavigator();
 function HomeStackGroup() {
@@ -125,12 +125,26 @@ function TopTabGroup() {
   );
 }
 
+// Main Screen For Exercise
 function PostAndFlexBox() {
   return (
     <TopTab.Navigator>
-      <TopTab.Screen name="PostScreen" component={PostScreen} />
+      <TopTab.Screen name="Feed" component={PostStackGroup} />
       <TopTab.Screen name="FlexBox" component={FlexBox} />
     </TopTab.Navigator>
+  );
+}
+// Stack for PostScreen
+function PostStackGroup() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="PostScreen" component={PostScreen} />
+      <Stack.Screen
+        name="AddPostScreen"
+        component={AddPostScreen}
+        options={{ presentation: "fullScreenModal" }}
+      />
+    </Stack.Navigator>
   );
 }
 
