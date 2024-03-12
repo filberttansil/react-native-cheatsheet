@@ -34,7 +34,7 @@ const MyLoader = () => (
 );
 
 export default function FlatListScreen() {
-  const { navigate, setOptions, openDrawer } = useNavigation();
+  const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -79,7 +79,7 @@ export default function FlatListScreen() {
   }, [page]);
 
   useLayoutEffect(() => {
-    setOptions({
+    navigation.setOptions({
       headerShown: true,
       headerLeft: () => (
         <Pressable style={{ marginLeft: 20 }} onPress={() => openDrawer()}>
@@ -94,7 +94,9 @@ export default function FlatListScreen() {
       <View style={{ padding: 10 }}>
         <Button
           children={"Add Todo"}
-          onPress={() => navigate("TodoFormScreen")}
+          onPress={() =>
+            navigation.navigate("TodoStack", { screen: "TodoForm" })
+          }
         />
       </View>
 
@@ -103,7 +105,12 @@ export default function FlatListScreen() {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
-            onPress={() => navigate("TodoDetail", item)}
+            onPress={() =>
+              navigation.navigate("TodoStack", {
+                screen: "TodoDetail",
+                params: item,
+              })
+            }
           >
             <Text>{item.title}</Text>
           </TouchableOpacity>

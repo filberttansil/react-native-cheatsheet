@@ -1,6 +1,14 @@
-import { View, Text, SafeAreaView, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Button,
+  StyleSheet,
+  Pressable,
+} from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TodoDetail() {
   const { goBack, setOptions } = useNavigation();
@@ -13,7 +21,11 @@ export default function TodoDetail() {
     setOptions({
       headerTitle: params.title,
       headerShown: true,
-      headerBackTitle: "Back",
+      headerLeft: () => (
+        <Pressable onPress={() => goBack()}>
+          <Ionicons name="arrow-back" size={25} />
+        </Pressable>
+      ),
     });
   }, []);
   return (
