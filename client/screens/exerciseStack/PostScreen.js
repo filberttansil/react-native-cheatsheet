@@ -9,7 +9,7 @@ import {
   TextInput,
   Keyboard,
 } from "react-native";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
 import EmptyComponent from "../../components/EmptyComponent";
@@ -52,22 +52,22 @@ export default function PostScreen({ navigation }) {
     fetchPosts();
   }, []);
   // Search
-  // useEffect(() => {
-  //   const debounceTimeout = setTimeout(() => {
-  //     console.log("jalan");
-  //     setIsLoading(true);
-  //     fetch("https://jsonplaceholder.typicode.com/posts")
-  //       .then((response) => response.json())
-  //       .then((json) =>
-  //         json.filter((post) =>
-  //           post.title.toLowerCase().includes(searchQuery.toLowerCase())
-  //         )
-  //       )
-  //       .then((filteredPost) => setPosts(filteredPost))
-  //       .then(() => setIsLoading(false));
-  //   }, 1000);
-  //   return () => clearTimeout(debounceTimeout);
-  // }, [searchQuery]);
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      console.log("jalan");
+      setIsLoading(true);
+      fetch("https://jsonplaceholder.typicode.com/posts")
+        .then((response) => response.json())
+        .then((json) =>
+          json.filter((post) =>
+            post.title.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+        )
+        .then((filteredPost) => setPosts(filteredPost))
+        .then(() => setIsLoading(false));
+    }, 1000);
+    return () => clearTimeout(debounceTimeout);
+  }, [searchQuery]);
 
   return (
     <SafeAreaView style={styles.container}>

@@ -58,6 +58,7 @@ function PostAndFlexBox() {
   );
 }
 // Stack for PostScreen
+const Stack = createNativeStackNavigator();
 function PostStackGroup() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
