@@ -148,6 +148,7 @@ export default function FlatListScreen() {
         onRefresh={handleRefresh}
         onEndReached={handleOnEndReached}
         onEndReachedThreshold={0}
+        maxToRenderPerBatch={8}
       />
     </SafeAreaView>
   );

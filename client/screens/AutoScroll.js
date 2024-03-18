@@ -6,13 +6,13 @@ import {
   ScrollView,
   Dimensions,
   Image,
+  Text
 } from "react-native";
 
 const { width } = Dimensions.get("window");
 const height = width * 0.5;
 
 const AutoScroll = () => {
-  const [search, setSearch] = useState("");
   const [sliderIndex, setSliderIndex] = useState(0);
   const [maxSlider] = useState(2);
   const listRef = useRef(null);
@@ -38,20 +38,28 @@ const AutoScroll = () => {
   useEffect(() => {
     // Function Interval untuk jalanin callback setiap 3 detik
     const interval = setInterval(() => {
-      let nextIndex = 0;
 
+      // Tiap iterasi nextIndex akan 0 
+      let nextIndex = 0;
+      // Jika sliderIndex masi dibawah maxSlider tambahin sliderIndex 1
       if (sliderIndex < maxSlider) {
         nextIndex = sliderIndex + 1;
       }
-
+      // Panggil scrollToIndex dngan value nextIndex ( hasil sliderIndex + 1 )
       scrollToIndex(nextIndex, true);
+
+      // Update state sliderIndex dengan nextIndex agar di iterasi berikutnya bertambah lagi sampai = maxSlider
       setSliderIndex(nextIndex);
     }, 3000);
-
+  
+    // Cleanup function menghapus interval agar memory tidak boncos
     return () => clearInterval(interval);
+
   }, [sliderIndex, maxSlider]);
 
-  // Jika listRef.current ada jalanin scrollToIndex sendiri
+
+
+  // Function ini akan mengupdate Ref
   const scrollToIndex = (index, animated) => {
     listRef.current && listRef.current.scrollToIndex({ index, animated });
   };
@@ -69,6 +77,10 @@ const AutoScroll = () => {
           showsHorizontalScrollIndicator={false}
           pagingEnabled
           keyExtractor={(item) => item._id.toString()}
+          // getItemLayout agar FlatList tidak perlu kalkulasi sendiri (optimized)
+          getItemLayout={(item,index)=>{
+            return {width:width,offset:width * index,index}
+          }}
           renderItem={({ item }) => (
             <View style={{ height, width }}>
               <Image
@@ -77,13 +89,6 @@ const AutoScroll = () => {
               />
             </View>
           )}
-          // Jika sudah capai akhir dari data, tembak ke awal
-          onMomentumScrollEnd={(event) => {
-            const currentIndex = event.nativeEvent.contentOffset.x
-              ? event.nativeEvent.contentOffset.x / width
-              : 0;
-            setSliderIndex(currentIndex);
-          }}
         />
         <View style={styles.sliderContainer}>
           {banners.map((item, index) => (
@@ -95,7 +100,9 @@ const AutoScroll = () => {
               </View>
             </View>
           ))}
+          
         </View>
+        <Text>Kok bisa?</Text>
       </ScrollView>
     </View>
   );
