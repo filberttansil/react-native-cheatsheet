@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  StyleSheet,
-  View,
-  FlatList,
-  ScrollView,
   Dimensions,
+  FlatList,
   Image,
-  Text
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 const { width } = Dimensions.get("window");
@@ -38,8 +38,7 @@ const AutoScroll = () => {
   useEffect(() => {
     // Function Interval untuk jalanin callback setiap 3 detik
     const interval = setInterval(() => {
-
-      // Tiap iterasi nextIndex akan 0 
+      // Tiap iterasi nextIndex akan 0
       let nextIndex = 0;
       // Jika sliderIndex masi dibawah maxSlider tambahin sliderIndex 1
       if (sliderIndex < maxSlider) {
@@ -51,13 +50,10 @@ const AutoScroll = () => {
       // Update state sliderIndex dengan nextIndex agar di iterasi berikutnya bertambah lagi sampai = maxSlider
       setSliderIndex(nextIndex);
     }, 3000);
-  
+
     // Cleanup function menghapus interval agar memory tidak boncos
     return () => clearInterval(interval);
-
   }, [sliderIndex, maxSlider]);
-
-
 
   // Function ini akan mengupdate Ref
   const scrollToIndex = (index, animated) => {
@@ -78,8 +74,8 @@ const AutoScroll = () => {
           pagingEnabled
           keyExtractor={(item) => item._id.toString()}
           // getItemLayout agar FlatList tidak perlu kalkulasi sendiri (optimized)
-          getItemLayout={(item,index)=>{
-            return {width:width,offset:width * index,index}
+          getItemLayout={(item, index) => {
+            return { width: width, offset: width * index, index };
           }}
           renderItem={({ item }) => (
             <View style={{ height, width }}>
@@ -100,7 +96,6 @@ const AutoScroll = () => {
               </View>
             </View>
           ))}
-          
         </View>
         <Text>Kok bisa?</Text>
       </ScrollView>

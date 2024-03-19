@@ -1,19 +1,20 @@
+import { FontAwesome } from "@expo/vector-icons";
+import React, { useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
   Dimensions,
-  TouchableOpacity,
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard,
+  View,
 } from "react-native";
-import React, { useState } from "react";
-import Button from "../components/Button";
-import { FontAwesome } from "@expo/vector-icons";
+
+import Button from "~/components/Button";
 
 export default function LoginScreen() {
   const initialState = {
@@ -72,7 +73,7 @@ export default function LoginScreen() {
         >
           {/* Logo */}
           <Image
-            source={require("../assets/pikachu.png")}
+            source={require("../../assets/pikachu.png")}
             style={styles.logo}
             resizeMode="contain"
           />

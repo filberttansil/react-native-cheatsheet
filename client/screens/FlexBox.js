@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
-import Box from "../components/Box";
+import { StyleSheet, View } from "react-native";
+
+import Box from "~/components/Box";
 
 export default function FlexBox() {
   return (

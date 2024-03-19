@@ -1,7 +1,8 @@
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
-import React from "react";
-import { POKEMON_DATA } from "../constants/pokemon";
-import PokemonCard from "../components/PokemonCard";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+
+import PokemonCard from "~/components/PokemonCard";
+
+import { POKEMON_DATA } from "~/constants/pokemon";
 
 export default function PokemonList() {
   return (

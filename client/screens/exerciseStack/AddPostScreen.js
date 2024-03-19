@@ -1,17 +1,18 @@
+import { FontAwesome } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
+import React, { useState } from "react";
 import {
-  View,
-  Text,
+  Keyboard,
   SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
+  Text,
   TextInput,
-  Keyboard,
+  TouchableOpacity,
   TouchableWithoutFeedback,
+  View,
 } from "react-native";
-import React, { useState } from "react";
-import { FontAwesome } from "@expo/vector-icons";
-import Button from "../../components/Button";
-import { useRoute } from "@react-navigation/native";
+
+import Button from "~/components/Button";
 
 export default function AddPostScreen({ navigation }) {
   const {

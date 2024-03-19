@@ -1,20 +1,18 @@
+import { SimpleLineIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import ContentLoader, { Rect } from "react-content-loader/native";
 import {
-  View,
-  Text,
+  FlatList,
+  Pressable,
   SafeAreaView,
   StyleSheet,
-  FlatList,
-  Image,
+  Text,
   TouchableOpacity,
-  Pressable,
-  ActivityIndicator,
+  View,
 } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { SimpleLineIcons } from "@expo/vector-icons";
-import Button from "../../components/Button";
 
-import ContentLoader, { Rect, Circle } from "react-content-loader/native";
+import Button from "~/components/Button";
 
 const MyLoader = () => (
   <ContentLoader

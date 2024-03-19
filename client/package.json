@@ -15,10 +15,13 @@
     "@react-navigation/material-top-tabs": "^6.6.6",
     "@react-navigation/native": "^6.1.10",
     "@react-navigation/native-stack": "^6.9.18",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "expo": "~50.0.7",
     "expo-status-bar": "~1.11.1",
+    "prettier": "^3.2.5",
     "react": "18.2.0",
     "react-content-loader": "^6.2.1",
+    "react-hook-form": "^7.51.1",
     "react-native": "0.73.4",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-pager-view": "6.2.3",
@@ -29,7 +32,8 @@
     "react-native-tab-view": "^3.5.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "babel-plugin-root-import": "^6.6.0"
   },
   "private": true
 }

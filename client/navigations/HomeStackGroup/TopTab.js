@@ -1,6 +1,7 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import FlatListScreen from "../../screens/homeStack/FlatlistScreen";
-import PokemonList from "../../screens/PokemonList";
+
+import PokemonList from "~/screens/PokemonList";
+import FlatListScreen from "~/screens/homeStack/FlatlistScreen";
 
 const TopTab = createMaterialTopTabNavigator();
 export function TopTabGroup() {

@@ -1,6 +1,6 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { BottomTabGroup } from "./BottomTab";
 import { TodoStack } from "./TodoStack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const HomeStack = createNativeStackNavigator();
 export default function HomeStackGroup() {

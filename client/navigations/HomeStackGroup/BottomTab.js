@@ -1,9 +1,11 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TopTabGroup } from "./TopTab";
-import ProfileScreen from "../../screens/ProfileScreen";
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
+import { Pressable } from "react-native";
+
+import { TopTabGroup } from "~/navigations/HomeStackGroup/TopTab";
+
+import ProfileScreen from "~/screens/ProfileScreen";
 
 const BottomTab = createBottomTabNavigator();
 export function BottomTabGroup() {

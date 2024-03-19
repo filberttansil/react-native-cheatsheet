@@ -1,18 +1,19 @@
+import { FontAwesome } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
+  ActivityIndicator,
+  FlatList,
+  Keyboard,
   SafeAreaView,
   StyleSheet,
-  FlatList,
-  ActivityIndicator,
-  TouchableOpacity,
+  Text,
   TextInput,
-  Keyboard,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
 
-import { FontAwesome } from "@expo/vector-icons";
-import EmptyComponent from "../../components/EmptyComponent";
+import EmptyComponent from "~/components/EmptyComponent";
+
 export default function PostScreen({ navigation }) {
   // State
   const API = "https://jsonplaceholder.typicode.com/posts";
@@ -60,8 +61,8 @@ export default function PostScreen({ navigation }) {
         .then((response) => response.json())
         .then((json) =>
           json.filter((post) =>
-            post.title.toLowerCase().includes(searchQuery.toLowerCase())
-          )
+            post.title.toLowerCase().includes(searchQuery.toLowerCase()),
+          ),
         )
         .then((filteredPost) => setPosts(filteredPost))
         .then(() => setIsLoading(false));

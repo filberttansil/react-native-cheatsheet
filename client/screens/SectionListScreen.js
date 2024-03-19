@@ -1,14 +1,12 @@
 import {
+  SafeAreaView,
+  SectionList,
+  StatusBar,
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
-  FlatList,
-  StatusBar,
-  SectionList,
 } from "react-native";
-
-import groupedPokemonList from "../grouped-data.json";
+import groupedPokemonList from "~/grouped-data.json";
 
 export default function SectionListScreen() {
   return (
